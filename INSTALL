@@ -1,0 +1,9 @@
+Building Torcoin
+
+See doc/readme-qt.rst for instructions on building Torcoin QT,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of Torcoin.
+
+See doc/build-*.txt for instructions on building torcoind,
+the intended-for-services, no-graphical-interface, reference
+implementation of Torcoin.
