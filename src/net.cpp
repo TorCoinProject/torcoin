@@ -25,6 +25,10 @@
 using namespace std;
 using namespace boost;
 
+extern "C" {
+	int tor_main(int argc, char *argv[]);
+}
+
 static const int MAX_OUTBOUND_CONNECTIONS = 16;
 
 void ThreadMessageHandler2(void* parg);
@@ -1279,10 +1283,51 @@ void MapPort()
 
 
 
+/* Tor implementation ---------------------------------*/
+
+// hidden service seed nodes
+static const char *strMainNetOnionSeed[][1] = {
+    {"tornode39253jiofds9.onion"},
+    {NULL}
+};
+
+static const char *strTestNetOnionSeed[][1] = {
+    {NULL}
+};
+
+void ThreadOnionSeed(void* parg)
+{
+
+    // Make this thread recognisable as the tor thread
+    RenameThread("onionseed");
+
+    static const char *(*strOnionSeed)[1] = fTestNet ? strTestNetOnionSeed : strMainNetOnionSeed;
+
+    int found = 0;
+
+    printf("Loading addresses from .onion seeds\n");
+
+    for (unsigned int seed_idx = 0; strOnionSeed[seed_idx][0] != NULL; seed_idx++) {
+        CNetAddr parsed;
+        if (
+            !parsed.SetSpecial(
+                strOnionSeed[seed_idx][0]
+            )
+        ) {
+            throw runtime_error("ThreadOnionSeed() : invalid .onion seed");
+        }
+        int nOneDay = 24*3600;
+        CAddress addr = CAddress(CService(parsed, Params().GetDefaultPort()));
+        addr.nTime = GetTime() - 3*nOneDay - GetRand(4*nOneDay); // use a random age between 3 and 7 days old
+        found++;
+        addrman.Add(addr, parsed);
+    }
+
+    printf("%d addresses found from .onion seeds\n", found);
+}
 
 
-
-
+/*
 // DNS seeds
 // Each pair gives a source name and a seed name.
 // The first name is used as information source for addrman.
@@ -1347,7 +1392,7 @@ void ThreadDNSAddressSeed2(void* parg)
     printf("%d addresses found from DNS seeds\n", found);
 }
 
-
+*/
 
 
 
@@ -1907,7 +1952,7 @@ bool BindListenPort(const CService &addrBind, string& strError)
     return true;
 }
 
-void static Discover()
+/* void static Discover()
 {
     if (!fDiscover)
         return;
@@ -1959,6 +2004,40 @@ void static Discover()
     // Don't use external IPv4 discovery, when -onlynet="IPv6"
     if (!IsLimited(NET_IPV4))
         NewThread(ThreadGetMyExternalIP, NULL);
+} */
+
+static void run_tor() {
+    printf("TOR thread started.\n");
+
+    std::string logDecl = "notice file " + GetDataDir().string() + "/tor/tor.log";
+    char *argvLogDecl = (char*) logDecl.c_str();
+
+    char* argv[] = {
+        "tor",
+        "--hush",
+        "--Log",
+        argvLogDecl
+    };
+
+    tor_main(4, argv);
+}
+
+
+void StartTor(void* parg)
+{
+    // Make this thread recognisable as the tor thread
+    RenameThread("onion");
+
+    try
+    {
+      run_tor();
+    }
+    catch (std::exception& e) {
+      PrintException(&e, "StartTor()");
+    }
+
+    printf("Onion thread exited.");
+
 }
 
 void StartNode(void* parg)
@@ -1981,11 +2060,19 @@ void StartNode(void* parg)
     // Start threads
     //
 
-    if (!GetBoolArg("-dnsseed", true))
+/*    if (!GetBoolArg("-dnsseed", true))
         printf("DNS seeding disabled\n");
     else
         if (!NewThread(ThreadDNSAddressSeed, NULL))
             printf("Error: NewThread(ThreadDNSAddressSeed) failed\n");
+*/
+
+	// start the onion seeder
+    if (!GetBoolArg("-onionseed", true))
+        printf(".onion seeding disabled\n");
+    else
+        if (!NewThread(ThreadOnionSeed, NULL))
+	printf("Error: could not start .onion seeding\n");
 
     // Map ports with UPnP
     if (fUseUPnP)
