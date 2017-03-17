@@ -978,6 +978,8 @@ int64_t GetProofOfWorkReward(int nHeight, int64_t nFees)
 
 	if (nHeight <= 0)
         nSubsidy = 0;
+	else if (nHeight <= 1)
+		nSubsidy = 1200000 * COIN; // 1.2m TOR Premine
 	else if (nHeight <= LAST_FAIR_LAUNCH_BLOCK) // 160
         nSubsidy = 1 * COIN/2;
 	else if (nHeight <= LAST_POW_BLOCK)
