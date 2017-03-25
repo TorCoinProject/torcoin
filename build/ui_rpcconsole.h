@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'rpcconsole.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.5
+** Created by: Qt User Interface Compiler version 4.8.7
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -486,8 +486,8 @@ public:
 
     void retranslateUi(QDialog *RPCConsole)
     {
-        RPCConsole->setWindowTitle(QApplication::translate("RPCConsole", "Nightmare - Debug window", 0, QApplication::UnicodeUTF8));
-        label_9->setText(QApplication::translate("RPCConsole", "Nightmare Core", 0, QApplication::UnicodeUTF8));
+        RPCConsole->setWindowTitle(QApplication::translate("RPCConsole", "Torcoin - Debug window", 0, QApplication::UnicodeUTF8));
+        label_9->setText(QApplication::translate("RPCConsole", "Torcoin Core", 0, QApplication::UnicodeUTF8));
         label_5->setText(QApplication::translate("RPCConsole", "Client name", 0, QApplication::UnicodeUTF8));
         clientName->setText(QApplication::translate("RPCConsole", "N/A", 0, QApplication::UnicodeUTF8));
         label_6->setText(QApplication::translate("RPCConsole", "Client version", 0, QApplication::UnicodeUTF8));
@@ -512,12 +512,12 @@ public:
         lastBlockTime->setText(QApplication::translate("RPCConsole", "N/A", 0, QApplication::UnicodeUTF8));
         labelDebugLogfile->setText(QApplication::translate("RPCConsole", "Debug log file", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        openDebugLogfileButton->setToolTip(QApplication::translate("RPCConsole", "Open the Nightmare debug log file from the current data directory. This can take a few seconds for large log files.", 0, QApplication::UnicodeUTF8));
+        openDebugLogfileButton->setToolTip(QApplication::translate("RPCConsole", "Open the Torcoin debug log file from the current data directory. This can take a few seconds for large log files.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         openDebugLogfileButton->setText(QApplication::translate("RPCConsole", "&Open", 0, QApplication::UnicodeUTF8));
         labelCLOptions->setText(QApplication::translate("RPCConsole", "Command-line options", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        showCLOptionsButton->setToolTip(QApplication::translate("RPCConsole", "Show the Nightmare-Qt help message to get a list with possible Nightmare command-line options.", 0, QApplication::UnicodeUTF8));
+        showCLOptionsButton->setToolTip(QApplication::translate("RPCConsole", "Show the Torcoin-Qt help message to get a list with possible Torcoin command-line options.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         showCLOptionsButton->setText(QApplication::translate("RPCConsole", "&Show", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_info), QApplication::translate("RPCConsole", "&Information", 0, QApplication::UnicodeUTF8));

@@ -16,21 +16,21 @@ greaterThan(QT_MAJOR_VERSION, 4) {
     DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0
 }
 
-BOOST_LIB_SUFFIX=-mgw48-mt-s-1_57
-BOOST_INCLUDE_PATH=C:/deps/boost_1_57_0
-BOOST_LIB_PATH=C:/deps/boost_1_57_0/stage/lib
-BDB_INCLUDE_PATH=C:/deps/db-4.8.30.NC/build_unix
-BDB_LIB_PATH=C:/deps/db-4.8.30.NC/build_unix
-OPENSSL_INCLUDE_PATH=C:/deps/openssl-1.0.1l/include
-OPENSSL_LIB_PATH=C:/deps/openssl-1.0.1l
-MINIUPNPC_INCLUDE_PATH=C:/deps
-LIBPNG_INCLUDE_PATH=C:/deps/libpng-1.6.9
-LIBPNG_LIB_PATH=C:/deps/libpng-1.6.9/.libs
-MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
-QRENCODE_INCLUDE_PATH=C:/deps/qrencode-3.4.3
-QRENCODE_LIB_PATH=C:/deps/qrencode-3.4.3/.libs
-LIBEVENT_INCLUDE_PATH=C:\MinGW\msys\1.0\local\include
-LIBEVENT_LIB_PATH=C:\MinGW\msys\1.0\local\lib
+#BOOST_LIB_SUFFIX=-mgw48-mt-s-1_57
+#BOOST_INCLUDE_PATH=C:/deps/boost_1_57_0
+#BOOST_LIB_PATH=C:/deps/boost_1_57_0/stage/lib
+#BDB_INCLUDE_PATH=C:/deps/db-4.8.30.NC/build_unix
+#BDB_LIB_PATH=C:/deps/db-4.8.30.NC/build_unix
+#OPENSSL_INCLUDE_PATH=C:/deps/openssl-1.0.1l/include
+#OPENSSL_LIB_PATH=C:/deps/openssl-1.0.1l
+#MINIUPNPC_INCLUDE_PATH=C:/deps
+#LIBPNG_INCLUDE_PATH=C:/deps/libpng-1.6.9
+#LIBPNG_LIB_PATH=C:/deps/libpng-1.6.9/.libs
+#MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
+#QRENCODE_INCLUDE_PATH=C:/deps/qrencode-3.4.3
+#QRENCODE_LIB_PATH=C:/deps/qrencode-3.4.3/.libs
+#LIBEVENT_INCLUDE_PATH=C:\MinGW\msys\1.0\local\include
+#LIBEVENT_LIB_PATH=C:\MinGW\msys\1.0\local\lib
 #LIBEVENT_LIB_PATH=C:\deps\32\libevent-2.0.22\.libs
 
 # for boost 1.37, add -mt to the boost libraries
@@ -282,6 +282,7 @@ HEADERS += src/qt/bitcoingui.h \
 	src/sph_keccak.h \
 	src/sph_skein.h \
 	src/sph_luffa.h \
+	src/sph_jh.h \
 	src/sph_cubehash.h \
     src/sph_simd.h \
     src/sph_types.h \

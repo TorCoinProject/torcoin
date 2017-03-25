@@ -53,7 +53,7 @@ void StatisticsPage::updateStatistics()
     QString phase = "";
     if (pindexBest->nHeight < 1500000)
     {
-        phase = "FRESH POW (POS Starts Block 1500000)";
+        phase = "X11 POW (POS Starts Block 1500000)";
     }
     else if (pindexBest->nHeight > 1500000)
     {
@@ -61,17 +61,13 @@ void StatisticsPage::updateStatistics()
     }
 
     QString subsidy = "";
-	if(pindexBest->nHeight < 1500000)
-    {
-		subsidy = "1 TOR per block halves every 6 months";
-    }
     QString hardness = QString::number(pHardness, 'f', 6);
     QString hardness2 = QString::number(pHardness2, 'f', 6);
     QString pawrate = QString::number(pPawrate2, 'f', 3);
     QString Qlpawrate = model->getLastBlockDate().toString();
 
     QString QPeers = QString::number(peers);
-    QString qVolume = QLocale(QLocale::English).toString(volume);
+    // QString qVolume = QLocale(QLocale::English).toString(volume);
 
     if(nHeight > heightPrevious)
     {
@@ -150,7 +146,7 @@ void StatisticsPage::updateStatistics()
         ui->connectionBox->setText(QPeers);  
     }
 
-    if(volume > volumePrevious)
+    /* if(volume > volumePrevious)
     {
         ui->volumeBox->setText("<b><font color=\"lightgreen\">" + qVolume + " TOR" + "</font></b>");
     } else if(volume < volumePrevious) {
@@ -158,6 +154,7 @@ void StatisticsPage::updateStatistics()
     } else {
         ui->volumeBox->setText(qVolume + " TOR");
     }
+	*/
     updatePrevious(nHeight, nMinWeight, nNetworkWeight, phase, subsidy, pHardness, pHardness2, pPawrate2, Qlpawrate, peers, volume);
 }
 
@@ -173,7 +170,7 @@ void StatisticsPage::updatePrevious(int nHeight, int nMinWeight, int nNetworkWei
     netPawratePrevious = pPawrate2;
     pawratePrevious = Qlpawrate;
     connectionPrevious = peers;
-    volumePrevious = volume;
+    // volumePrevious = volume;
 }
 
 void StatisticsPage::setModel(ClientModel *model)

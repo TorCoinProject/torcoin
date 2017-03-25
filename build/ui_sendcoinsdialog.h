@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'sendcoinsdialog.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.5
+** Created by: Qt User Interface Compiler version 4.8.7
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -505,17 +505,17 @@ public:
         labelCoinControlBytesText->setText(QApplication::translate("SendCoinsDialog", "Bytes:", 0, QApplication::UnicodeUTF8));
         labelCoinControlBytes->setText(QApplication::translate("SendCoinsDialog", "0", 0, QApplication::UnicodeUTF8));
         labelCoinControlAmountText->setText(QApplication::translate("SendCoinsDialog", "Amount:", 0, QApplication::UnicodeUTF8));
-        labelCoinControlAmount->setText(QApplication::translate("SendCoinsDialog", "0.00 NM", 0, QApplication::UnicodeUTF8));
+        labelCoinControlAmount->setText(QApplication::translate("SendCoinsDialog", "0.00 TOR", 0, QApplication::UnicodeUTF8));
         labelCoinControlPriorityText->setText(QApplication::translate("SendCoinsDialog", "Priority:", 0, QApplication::UnicodeUTF8));
         labelCoinControlPriority->setText(QApplication::translate("SendCoinsDialog", "medium", 0, QApplication::UnicodeUTF8));
         labelCoinControlFeeText->setText(QApplication::translate("SendCoinsDialog", "Fee:", 0, QApplication::UnicodeUTF8));
-        labelCoinControlFee->setText(QApplication::translate("SendCoinsDialog", "0.00 NM", 0, QApplication::UnicodeUTF8));
+        labelCoinControlFee->setText(QApplication::translate("SendCoinsDialog", "0.00 TOR", 0, QApplication::UnicodeUTF8));
         labelCoinControlLowOutputText->setText(QApplication::translate("SendCoinsDialog", "Low Output:", 0, QApplication::UnicodeUTF8));
         labelCoinControlLowOutput->setText(QApplication::translate("SendCoinsDialog", "no", 0, QApplication::UnicodeUTF8));
         labelCoinControlAfterFeeText->setText(QApplication::translate("SendCoinsDialog", "After Fee:", 0, QApplication::UnicodeUTF8));
-        labelCoinControlAfterFee->setText(QApplication::translate("SendCoinsDialog", "0.00 NM", 0, QApplication::UnicodeUTF8));
+        labelCoinControlAfterFee->setText(QApplication::translate("SendCoinsDialog", "0.00 TOR", 0, QApplication::UnicodeUTF8));
         labelCoinControlChangeText->setText(QApplication::translate("SendCoinsDialog", "Change", 0, QApplication::UnicodeUTF8));
-        labelCoinControlChange->setText(QApplication::translate("SendCoinsDialog", "0.00 NM", 0, QApplication::UnicodeUTF8));
+        labelCoinControlChange->setText(QApplication::translate("SendCoinsDialog", "0.00 TOR", 0, QApplication::UnicodeUTF8));
         checkBoxCoinControlChange->setText(QApplication::translate("SendCoinsDialog", "custom change address", 0, QApplication::UnicodeUTF8));
         labelCoinControlChangeLabel->setText(QString());
 #ifndef QT_NO_TOOLTIP
@@ -527,7 +527,7 @@ public:
 #endif // QT_NO_TOOLTIP
         clearButton->setText(QApplication::translate("SendCoinsDialog", "Clear &All", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("SendCoinsDialog", "Balance:", 0, QApplication::UnicodeUTF8));
-        labelBalance->setText(QApplication::translate("SendCoinsDialog", "123.456 NM", 0, QApplication::UnicodeUTF8));
+        labelBalance->setText(QApplication::translate("SendCoinsDialog", "123.456 TOR", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
         sendButton->setToolTip(QApplication::translate("SendCoinsDialog", "Confirm the send action", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'sendcoinsentry.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.5
+** Created by: Qt User Interface Compiler version 4.8.7
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -161,7 +161,7 @@ public:
 #endif // QT_NO_TOOLTIP
         label_4->setText(QApplication::translate("SendCoinsEntry", "&Label:", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        payTo->setToolTip(QApplication::translate("SendCoinsEntry", "The address to send the payment to  (e.g. NMywGBZBowrppUwwNUo1GCRDTibzJi7g2M)", 0, QApplication::UnicodeUTF8));
+        payTo->setToolTip(QApplication::translate("SendCoinsEntry", "The address to send the payment to  (e.g. TORyvGBZBowrppUwwNUo1GCRDTibzJi7g2M)", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_TOOLTIP
         addressBookButton->setToolTip(QApplication::translate("SendCoinsEntry", "Choose address from address book", 0, QApplication::UnicodeUTF8));

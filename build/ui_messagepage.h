@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'messagepage.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.5
+** Created by: Qt User Interface Compiler version 4.8.7
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -201,7 +201,7 @@ public:
         contactLabel->setText(QString());
         newButton->setText(QApplication::translate("MessagePage", "&Conversation", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        sendButton->setToolTip(QApplication::translate("MessagePage", "Sign a message to prove you own a Nightmare address", 0, QApplication::UnicodeUTF8));
+        sendButton->setToolTip(QApplication::translate("MessagePage", "Sign a message to prove you own a Torcoin address", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         sendButton->setText(QApplication::translate("MessagePage", "&Send", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP

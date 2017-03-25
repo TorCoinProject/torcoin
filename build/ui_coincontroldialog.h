@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'coincontroldialog.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.5
+** Created by: Qt User Interface Compiler version 4.8.7
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -133,7 +133,7 @@ public:
         labelCoinControlAmount->setFont(font);
         labelCoinControlAmount->setCursor(QCursor(Qt::IBeamCursor));
         labelCoinControlAmount->setContextMenuPolicy(Qt::ActionsContextMenu);
-        labelCoinControlAmount->setText(QString::fromUtf8("0.00 NM"));
+        labelCoinControlAmount->setText(QString::fromUtf8("0.00 TOR"));
         labelCoinControlAmount->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse);
 
         formLayoutCoinControl2->setWidget(0, QFormLayout::FieldRole, labelCoinControlAmount);
@@ -172,7 +172,7 @@ public:
         labelCoinControlFee->setFont(font);
         labelCoinControlFee->setCursor(QCursor(Qt::IBeamCursor));
         labelCoinControlFee->setContextMenuPolicy(Qt::ActionsContextMenu);
-        labelCoinControlFee->setText(QString::fromUtf8("0.00 NM"));
+        labelCoinControlFee->setText(QString::fromUtf8("0.00 TOR"));
         labelCoinControlFee->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse);
 
         formLayoutCoinControl3->setWidget(0, QFormLayout::FieldRole, labelCoinControlFee);
@@ -214,7 +214,7 @@ public:
         labelCoinControlAfterFee->setFont(font);
         labelCoinControlAfterFee->setCursor(QCursor(Qt::IBeamCursor));
         labelCoinControlAfterFee->setContextMenuPolicy(Qt::ActionsContextMenu);
-        labelCoinControlAfterFee->setText(QString::fromUtf8("0.00 NM"));
+        labelCoinControlAfterFee->setText(QString::fromUtf8("0.00 TOR"));
         labelCoinControlAfterFee->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse);
 
         formLayoutCoinControl4->setWidget(0, QFormLayout::FieldRole, labelCoinControlAfterFee);
@@ -232,7 +232,7 @@ public:
         labelCoinControlChange->setFont(font);
         labelCoinControlChange->setCursor(QCursor(Qt::IBeamCursor));
         labelCoinControlChange->setContextMenuPolicy(Qt::ActionsContextMenu);
-        labelCoinControlChange->setText(QString::fromUtf8("0.00 NM"));
+        labelCoinControlChange->setText(QString::fromUtf8("0.00 TOR"));
         labelCoinControlChange->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse);
 
         formLayoutCoinControl4->setWidget(1, QFormLayout::FieldRole, labelCoinControlChange);

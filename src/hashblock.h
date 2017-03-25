@@ -81,7 +81,7 @@ inline uint256 Hash9(const T1 pbegin, const T1 pend)
     //strhash = "";
 #endif
     
-    uint512 hash[11];
+    uint512 hash[17];
 
     sph_blake512_init(&ctx_blake);
     sph_blake512 (&ctx_blake, (pbegin == pend ? pblank : static_cast<const void*>(&pbegin[0])), (pend - pbegin) * sizeof(pbegin[0]));

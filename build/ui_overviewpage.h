@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'overviewpage.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.5
+** Created by: Qt User Interface Compiler version 4.8.7
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -119,7 +119,7 @@ public:
         font1.setWeight(75);
         labelBalance->setFont(font1);
         labelBalance->setCursor(QCursor(Qt::IBeamCursor));
-        labelBalance->setText(QString::fromUtf8("0 NM"));
+        labelBalance->setText(QString::fromUtf8("0 TOR"));
         labelBalance->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse);
 
         formLayout_2->setWidget(0, QFormLayout::FieldRole, labelBalance);
@@ -133,7 +133,7 @@ public:
         labelStake->setObjectName(QString::fromUtf8("labelStake"));
         labelStake->setFont(font1);
         labelStake->setCursor(QCursor(Qt::IBeamCursor));
-        labelStake->setText(QString::fromUtf8("0 NM"));
+        labelStake->setText(QString::fromUtf8("0 TOR"));
         labelStake->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse);
 
         formLayout_2->setWidget(1, QFormLayout::FieldRole, labelStake);
@@ -147,7 +147,7 @@ public:
         labelUnconfirmed->setObjectName(QString::fromUtf8("labelUnconfirmed"));
         labelUnconfirmed->setFont(font1);
         labelUnconfirmed->setCursor(QCursor(Qt::IBeamCursor));
-        labelUnconfirmed->setText(QString::fromUtf8("0 NM"));
+        labelUnconfirmed->setText(QString::fromUtf8("0 TOR"));
         labelUnconfirmed->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse);
 
         formLayout_2->setWidget(2, QFormLayout::FieldRole, labelUnconfirmed);
@@ -160,7 +160,7 @@ public:
         labelImmature = new QLabel(frame);
         labelImmature->setObjectName(QString::fromUtf8("labelImmature"));
         labelImmature->setFont(font1);
-        labelImmature->setText(QString::fromUtf8("0 NM"));
+        labelImmature->setText(QString::fromUtf8("0 TOR"));
         labelImmature->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse);
 
         formLayout_2->setWidget(3, QFormLayout::FieldRole, labelImmature);
@@ -198,7 +198,7 @@ public:
 
         label_2 = new QLabel(OverviewPage);
         label_2->setObjectName(QString::fromUtf8("label_2"));
-        label_2->setPixmap(QPixmap(QString::fromUtf8(":/icons/nightmare")));
+        label_2->setPixmap(QPixmap(QString::fromUtf8(":/icons/torcoin")));
 
         verticalLayout_2->addWidget(label_2);
 
@@ -268,7 +268,7 @@ public:
         OverviewPage->setWindowTitle(QApplication::translate("OverviewPage", "Form", 0, QApplication::UnicodeUTF8));
         label_5->setText(QApplication::translate("OverviewPage", "Wallet", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        labelWalletStatus->setToolTip(QApplication::translate("OverviewPage", "The displayed information may be out of date. Your wallet automatically synchronizes with the Nightmare network after a connection is established, but this process has not completed yet.", 0, QApplication::UnicodeUTF8));
+        labelWalletStatus->setToolTip(QApplication::translate("OverviewPage", "The displayed information may be out of date. Your wallet automatically synchronizes with the Torcoin network after a connection is established, but this process has not completed yet.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         label->setText(QApplication::translate("OverviewPage", "Spendable:", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
@@ -293,7 +293,7 @@ public:
         label_2->setText(QString());
         label_4->setText(QApplication::translate("OverviewPage", "<b>Recent transactions</b>", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        labelTransactionsStatus->setToolTip(QApplication::translate("OverviewPage", "The displayed information may be out of date. Your wallet automatically synchronizes with the Nightmare network after a connection is established, but this process has not completed yet.", 0, QApplication::UnicodeUTF8));
+        labelTransactionsStatus->setToolTip(QApplication::translate("OverviewPage", "The displayed information may be out of date. Your wallet automatically synchronizes with the Torcoin network after a connection is established, but this process has not completed yet.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
     } // retranslateUi
 

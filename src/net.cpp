@@ -1287,7 +1287,7 @@ void MapPort()
 
 // hidden service seed nodes
 static const char *strMainNetOnionSeed[][1] = {
-    {"tornode39253jiofds9.onion"},
+    {NULL},
     {NULL}
 };
 
@@ -1317,7 +1317,7 @@ void ThreadOnionSeed(void* parg)
             throw runtime_error("ThreadOnionSeed() : invalid .onion seed");
         }
         int nOneDay = 24*3600;
-        CAddress addr = CAddress(CService(parsed, Params().GetDefaultPort()));
+	CAddress addr = CAddress(CService(parsed, GetDefaultPort()));
         addr.nTime = GetTime() - 3*nOneDay - GetRand(4*nOneDay); // use a random age between 3 and 7 days old
         found++;
         addrman.Add(addr, parsed);
@@ -2005,6 +2005,10 @@ bool BindListenPort(const CService &addrBind, string& strError)
     if (!IsLimited(NET_IPV4))
         NewThread(ThreadGetMyExternalIP, NULL);
 } */
+void static Discover()
+{
+   // no network discovery
+}
 
 static void run_tor() {
     printf("TOR thread started.\n");
@@ -2138,7 +2142,7 @@ bool StopNode()
 #ifdef USE_UPNP
     if (vnThreadsRunning[THREAD_UPNP] > 0) printf("ThreadMapPort still running\n");
 #endif
-    if (vnThreadsRunning[THREAD_DNSSEED] > 0) printf("ThreadDNSAddressSeed still running\n");
+    if (vnThreadsRunning[THREAD_ONIONSEED] > 0) printf("ThreadOnionSeed still running\n");
     if (vnThreadsRunning[THREAD_ADDEDCONNECTIONS] > 0) printf("ThreadOpenAddedConnections still running\n");
     if (vnThreadsRunning[THREAD_DUMPADDRESS] > 0) printf("ThreadDumpAddresses still running\n");
     if (vnThreadsRunning[THREAD_STAKE_MINER] > 0) printf("ThreadStakeMiner still running\n");

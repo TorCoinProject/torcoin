@@ -588,9 +588,9 @@ bool AppInit2()
 
     // ********************************************************* Step 6: network initialization
 
-    nMaxThinPeers = GetArg("-maxthinpeers", 8);
+    // nMaxThinPeers = GetArg("-maxthinpeers", 8);
 
-    nBloomFilterElements = GetArg("-bloomfilterelements", 1536);
+    // nBloomFilterElements = GetArg("-bloomfilterelements", 1536);
 	
 	// Tor implementation
 	

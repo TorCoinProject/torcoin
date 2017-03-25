@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'statisticspage.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.5
+** Created by: Qt User Interface Compiler version 4.8.7
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -103,7 +103,7 @@ public:
         label = new QLabel(frame);
         label->setObjectName(QString::fromUtf8("label"));
         label->setGeometry(QRect(10, 10, 191, 191));
-        label->setPixmap(QPixmap(QString::fromUtf8(":/icons/nightmare")));
+        label->setPixmap(QPixmap(QString::fromUtf8(":/icons/torcoin")));
         label->setScaledContents(true);
 
         gridLayout->addWidget(frame, 0, 1, 1, 1);
@@ -301,7 +301,7 @@ public:
         label_15->setText(QApplication::translate("StatisticsPage", "<html><head/><body><p><span style=\" font-weight:600;\">Mining Phase</span></p></body></html>", 0, QApplication::UnicodeUTF8));
         cBox->setText(QApplication::translate("StatisticsPage", "POW-POS", 0, QApplication::UnicodeUTF8));
         label_16->setText(QApplication::translate("StatisticsPage", "<html><head/><body><p><span style=\" font-weight:600;\">Net Hashrate</span></p></body></html>", 0, QApplication::UnicodeUTF8));
-        label_5->setText(QApplication::translate("StatisticsPage", "<html><head/><body><p><span style=\" font-size:20px; font-weight:600; color:#FFFFFF;\">Nightmare [NM] Statistics</span></p></body></html>", 0, QApplication::UnicodeUTF8));
+        label_5->setText(QApplication::translate("StatisticsPage", "<html><head/><body><p><span style=\" font-size:20px; font-weight:600; color:#FFFFFF;\">Torcoin [TOR] Statistics</span></p></body></html>", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

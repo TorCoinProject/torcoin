@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'optionsdialog.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.5
+** Created by: Qt User Interface Compiler version 4.8.7
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -374,20 +374,20 @@ public:
         reserveBalanceInfoLabel->setText(QApplication::translate("OptionsDialog", "Reserved amount does not participate in staking and is therefore spendable at any time.", 0, QApplication::UnicodeUTF8));
         reserveBalanceLabel->setText(QApplication::translate("OptionsDialog", "Reserve", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        bitcoinAtStartup->setToolTip(QApplication::translate("OptionsDialog", "Automatically start Nightmare after logging in to the system.", 0, QApplication::UnicodeUTF8));
+        bitcoinAtStartup->setToolTip(QApplication::translate("OptionsDialog", "Automatically start Torcoin after logging in to the system.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
-        bitcoinAtStartup->setText(QApplication::translate("OptionsDialog", "&Start Nightmare on system login", 0, QApplication::UnicodeUTF8));
+        bitcoinAtStartup->setText(QApplication::translate("OptionsDialog", "&Start Torcoin on system login", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
         detachDatabases->setToolTip(QApplication::translate("OptionsDialog", "Detach block and address databases at shutdown. This means they can be moved to another data directory, but it slows down shutdown. The wallet is always detached.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         detachDatabases->setText(QApplication::translate("OptionsDialog", "&Detach databases at shutdown", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tabMain), QApplication::translate("OptionsDialog", "&Main", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        mapPortUpnp->setToolTip(QApplication::translate("OptionsDialog", "Automatically open the Nightmare client port on the router. This only works when your router supports UPnP and it is enabled.", 0, QApplication::UnicodeUTF8));
+        mapPortUpnp->setToolTip(QApplication::translate("OptionsDialog", "Automatically open the Torcoin client port on the router. This only works when your router supports UPnP and it is enabled.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         mapPortUpnp->setText(QApplication::translate("OptionsDialog", "Map port using &UPnP", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        connectSocks->setToolTip(QApplication::translate("OptionsDialog", "Connect to the Nightmare network through a SOCKS proxy (e.g. when connecting through Tor).", 0, QApplication::UnicodeUTF8));
+        connectSocks->setToolTip(QApplication::translate("OptionsDialog", "Connect to the Torcoin network through a SOCKS proxy (e.g. when connecting through Tor).", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         connectSocks->setText(QApplication::translate("OptionsDialog", "&Connect through SOCKS proxy:", 0, QApplication::UnicodeUTF8));
         proxyIpLabel->setText(QApplication::translate("OptionsDialog", "Proxy &IP:", 0, QApplication::UnicodeUTF8));
@@ -414,14 +414,14 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(tabWindow), QApplication::translate("OptionsDialog", "&Window", 0, QApplication::UnicodeUTF8));
         langLabel->setText(QApplication::translate("OptionsDialog", "User Interface &language:", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        lang->setToolTip(QApplication::translate("OptionsDialog", "The user interface language can be set here. This setting will take effect after restarting Nightmare.", 0, QApplication::UnicodeUTF8));
+        lang->setToolTip(QApplication::translate("OptionsDialog", "The user interface language can be set here. This setting will take effect after restarting Torcoin.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         unitLabel->setText(QApplication::translate("OptionsDialog", "&Unit to show amounts in:", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
         unit->setToolTip(QApplication::translate("OptionsDialog", "Choose the default subdivision unit to show in the interface and when sending coins.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_TOOLTIP
-        displayAddresses->setToolTip(QApplication::translate("OptionsDialog", "Whether to show Nightmare addresses in the transaction list or not.", 0, QApplication::UnicodeUTF8));
+        displayAddresses->setToolTip(QApplication::translate("OptionsDialog", "Whether to show Torcoin addresses in the transaction list or not.", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         displayAddresses->setText(QApplication::translate("OptionsDialog", "&Display addresses in transaction list", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP

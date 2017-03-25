@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'signverifymessagedialog.ui'
 **
-** Created by: Qt User Interface Compiler version 4.8.5
+** Created by: Qt User Interface Compiler version 4.8.7
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -282,7 +282,7 @@ public:
         SignVerifyMessageDialog->setWindowTitle(QApplication::translate("SignVerifyMessageDialog", "Signatures - Sign / Verify a Message", 0, QApplication::UnicodeUTF8));
         infoLabel_SM->setText(QApplication::translate("SignVerifyMessageDialog", "You can sign messages with your addresses to prove you own them. Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        addressIn_SM->setToolTip(QApplication::translate("SignVerifyMessageDialog", "The address to sign the message with (e.g. NMywGBZBowrppUwwNUo1GCRDTibzJi7g2M)", 0, QApplication::UnicodeUTF8));
+        addressIn_SM->setToolTip(QApplication::translate("SignVerifyMessageDialog", "The address to sign the message with (e.g. TORyvGBZBowrppUwwNUo1GCRDTibzJi7g2M)", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_TOOLTIP
         addressBookButton_SM->setToolTip(QApplication::translate("SignVerifyMessageDialog", "Choose an address from the address book", 0, QApplication::UnicodeUTF8));
@@ -302,7 +302,7 @@ public:
 #endif // QT_NO_TOOLTIP
         copySignatureButton_SM->setText(QString());
 #ifndef QT_NO_TOOLTIP
-        signMessageButton_SM->setToolTip(QApplication::translate("SignVerifyMessageDialog", "Sign the message to prove you own this Nightmare address", 0, QApplication::UnicodeUTF8));
+        signMessageButton_SM->setToolTip(QApplication::translate("SignVerifyMessageDialog", "Sign the message to prove you own this Torcoin address", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         signMessageButton_SM->setText(QApplication::translate("SignVerifyMessageDialog", "&Sign Message", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
@@ -313,7 +313,7 @@ public:
         tabWidget->setTabText(tabWidget->indexOf(tabSignMessage), QApplication::translate("SignVerifyMessageDialog", "&Sign Message", 0, QApplication::UnicodeUTF8));
         infoLabel_VM->setText(QApplication::translate("SignVerifyMessageDialog", "Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        addressIn_VM->setToolTip(QApplication::translate("SignVerifyMessageDialog", "The address the message was signed with (e.g. NMywGBZBowrppUwwNUo1GCRDTibzJi7g2M)", 0, QApplication::UnicodeUTF8));
+        addressIn_VM->setToolTip(QApplication::translate("SignVerifyMessageDialog", "The address the message was signed with (e.g. TORyvGBZBowrppUwwNUo1GCRDTibzJi7g2M)", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
 #ifndef QT_NO_TOOLTIP
         addressBookButton_VM->setToolTip(QApplication::translate("SignVerifyMessageDialog", "Choose an address from the address book", 0, QApplication::UnicodeUTF8));
@@ -321,7 +321,7 @@ public:
         addressBookButton_VM->setText(QString());
         addressBookButton_VM->setShortcut(QApplication::translate("SignVerifyMessageDialog", "Alt+A", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        verifyMessageButton_VM->setToolTip(QApplication::translate("SignVerifyMessageDialog", "Verify the message to ensure it was signed with the specified Nightmare address", 0, QApplication::UnicodeUTF8));
+        verifyMessageButton_VM->setToolTip(QApplication::translate("SignVerifyMessageDialog", "Verify the message to ensure it was signed with the specified Torcoin address", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         verifyMessageButton_VM->setText(QApplication::translate("SignVerifyMessageDialog", "&Verify Message", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
