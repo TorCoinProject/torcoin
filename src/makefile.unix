@@ -185,7 +185,7 @@ OBJS= \
     obj/simd.o \
 	obj/blake.o \
     obj/bmw.o \
-    obj/cubehash.o \    
+    obj/cubehash.o \
 	obj/luffa.o \
     obj/jh.o \
     obj/keccak.o \
@@ -259,7 +259,7 @@ obj/scrypt-arm.o: scrypt-arm.S
 	$(CXX) -c $(xCXXFLAGS) -MMD -o $@ $<
 
 obj/%.o: %.c
-	$(CXX) -c $(xCXXFLAGS) -MMD -MF $(@:%.o=%.d) -o $@ $<
+	$(CXX) -c $(xCXXFLAGS) -fpermissive -MMD -MF $(@:%.o=%.d) -o $@ $<
 	@cp $(@:%.o=%.d) $(@:%.o=%.P); \
 	sed -e 's/#.*//' -e 's/^[^:]*: *//' -e 's/ *\\$$//' \
 	-e '/^$$/ d' -e 's/$$/ :/' < $(@:%.o=%.d) >> $(@:%.o=%.P); \
