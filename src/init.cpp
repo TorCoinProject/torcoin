@@ -417,7 +417,7 @@ bool AppInit2()
 
     fTestNet = GetBoolArg("-testnet");
     
-    //if (fTestNet)
+    if (fTestNet)
     {
         SoftSetBoolArg("-irc", true);
     }
@@ -604,50 +604,6 @@ bool AppInit2()
                 SetLimited(net);
         }
 	} while (false);
-	
-/*     if (mapArgs.count("-onlynet"))
-    {
-        std::set<enum Network> nets;
-        BOOST_FOREACH(std::string snet, mapMultiArgs["-onlynet"])
-        {
-            enum Network net = ParseNetwork(snet);
-            if (net == NET_UNROUTABLE)
-                return InitError(strprintf(_("Unknown network specified in -onlynet: '%s'"), snet.c_str()));
-            nets.insert(net);
-        };
-        for (int n = 0; n < NET_MAX; n++)
-        {
-            enum Network net = (enum Network)n;
-            if (!nets.count(net))
-                SetLimited(net);
-        };
-    }; 
-    CService addrProxy;
-    bool fProxy = false;
-    if (mapArgs.count("-proxy")) {
-        addrProxy = CService(mapArgs["-proxy"], 9050);
-        if (!addrProxy.IsValid())
-            return InitError(strprintf(_("Invalid -proxy address: '%s'"), mapArgs["-proxy"]));
-        
-        SetProxy(NET_IPV4, addrProxy);
-        SetProxy(NET_IPV6, addrProxy);
-        SetNameProxy(addrProxy);
-        fProxy = true;
-    }
-    // -tor can override normal proxy, -notor disables tor entirely
-    if (!(mapArgs.count("-tor") && mapArgs["-tor"] == "0") && (fProxy || mapArgs.count("-tor")))
-    {
-        CService addrOnion;
-		
-        if (!mapArgs.count("-tor"))
-            addrOnion = addrProxy;
-        else
-            addrOnion = CService(mapArgs["-tor"], onion_port);
-        if (!addrOnion.IsValid())
-            return InitError(strprintf(_("Invalid -tor address: '%s'"), mapArgs["-tor"]));
-    } else {
-        addrOnion = CService("127.0.0.1", onion_port);
-    }	*/
 
 
 	// Tor implementation
@@ -657,102 +613,70 @@ bool AppInit2()
 
     if (mapArgs.count("-tor") && mapArgs["-tor"] != "0") {
         addrOnion = CService(mapArgs["-tor"], onion_port);
-
         if (!addrOnion.IsValid())
             return InitError(strprintf(_("Invalid -tor address: '%s'"), mapArgs["-tor"].c_str()));
     } else {
         addrOnion = CService("127.0.0.1", onion_port);
-}
+    }
 	
-	if (true) {
-        //SetProxy(NET_TOR, addrOnion, 5);
-		SetProxy(NET_TOR, addrOnion);
+    if (true) {
+        SetProxy(NET_TOR, addrOnion, 5);
         SetReachable(NET_TOR);
     }
 
     // see Step 2: parameter interactions for more information about these
-   // fNoListen = !GetBoolArg("-listen", true);
-   // fDiscover = GetBoolArg("-discover", true);
     fNameLookup = GetBoolArg("-dns", true);
-#ifdef USE_UPNP
-    fUseUPnP = GetBoolArg("-upnp", USE_UPNP);
-#endif
 
     bool fBound = false;
-/*     if (!fNoListen)
-    {
-        std::string strError;
-        if (mapArgs.count("-bind"))
-        {
-            BOOST_FOREACH(std::string strBind, mapMultiArgs["-bind"])
-            {
+    if (true) {
+        if (true) {
+            do {
                 CService addrBind;
-                if (!Lookup(strBind.c_str(), addrBind, GetListenPort(), false))
-                    return InitError(strprintf(_("Cannot resolve -bind address: '%s'"), strBind.c_str()));
-                fBound |= Bind(addrBind);
-            };
-        } else
-        {
-            struct in_addr inaddr_any;
-            inaddr_any.s_addr = INADDR_ANY;
-            if (!IsLimited(NET_IPV6))
-                fBound |= Bind(CService(in6addr_any, GetListenPort()), false);
-            if (!IsLimited(NET_IPV4))
-                fBound |= Bind(CService(inaddr_any, GetListenPort()), !fBound);
-        };
-        if (!fBound)
-            return InitError(_("Failed to listen on any port. Use -listen=0 if you want this."));
-    }; */
-	
-	
-	// Tor implementation
-	if (true) 
-	{
-		std::string strError;
-
-        if (true) 
-		{
-            do 
-			{
-                CService addrBind;
-
                 if (!Lookup("127.0.0.1", addrBind, GetListenPort(), false))
-                    return InitError(strprintf(_("Cannot resolve binding address: '%s'"), "127.0.0.1"));
-
+                    return InitError(strprintf(_("Cannot resolve binding address: '%s'"),  "127.0.0.1"));
                 fBound |= Bind(addrBind);
-            } while (false);
+            } while (
+                false
+            );
         }
-
         if (!fBound)
-			return InitError(_("Failed to listen on any port."));
-	}
-	
-	if (!(mapArgs.count("-tor") && mapArgs["-tor"] != "0")) {
-        if (!NewThread(StartTor, NULL))
-                InitError(_("Error: could not start tor node"));
+            return InitError(_("Failed to listen on any port."));
     }
 
-	wait_initialized();
+
+    // start up tor
+    if (!(mapArgs.count("-tor") && mapArgs["-tor"] != "0")) {
+      if (!NewThread(StartTor, NULL))
+        InitError(_("Error: could not start tor"));
+    }
+
+    wait_initialized();
+
 
     if (mapArgs.count("-externalip"))
     {
-        BOOST_FOREACH(std::string strAddr, mapMultiArgs["-externalip"])
-        {
+        BOOST_FOREACH(string strAddr, mapMultiArgs["-externalip"]) {
             CService addrLocal(strAddr, GetListenPort(), fNameLookup);
             if (!addrLocal.IsValid())
                 return InitError(strprintf(_("Cannot resolve -externalip address: '%s'"), strAddr.c_str()));
             AddLocal(CService(strAddr, GetListenPort(), fNameLookup), LOCAL_MANUAL);
         }
-    } else 
-	{
+    } else {
         string automatic_onion;
-        filesystem::path const hostname_path = GetDefaultDataDir() / "onion" / "hostname";
-
-        if (!filesystem::exists(hostname_path)) {
-            return InitError(_("No external address found."));
+        filesystem::path const hostname_path = GetDataDir(
+        ) / "onion" / "hostname";
+        if (
+            !filesystem::exists(
+                hostname_path
+            )
+        ) {
+            return InitError(strprintf(_("No external address found. %s"), hostname_path.string().c_str()));
         }
-
-        ifstream file(hostname_path.string().c_str());
+        ifstream file(
+            hostname_path.string(
+            ).c_str(
+            )
+        );
         file >> automatic_onion;
         AddLocal(CService(automatic_onion, GetListenPort(), fNameLookup), LOCAL_MANUAL);
     }

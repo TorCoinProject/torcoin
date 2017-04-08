@@ -16,22 +16,22 @@ greaterThan(QT_MAJOR_VERSION, 4) {
     DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0
 }
 
-#BOOST_LIB_SUFFIX=-mgw48-mt-s-1_57
-#BOOST_INCLUDE_PATH=C:/deps/boost_1_57_0
-#BOOST_LIB_PATH=C:/deps/boost_1_57_0/stage/lib
-#BDB_INCLUDE_PATH=C:/deps/db-4.8.30.NC/build_unix
-#BDB_LIB_PATH=C:/deps/db-4.8.30.NC/build_unix
-#OPENSSL_INCLUDE_PATH=C:/deps/openssl-1.0.1l/include
-#OPENSSL_LIB_PATH=C:/deps/openssl-1.0.1l
-#MINIUPNPC_INCLUDE_PATH=C:/deps
-#LIBPNG_INCLUDE_PATH=C:/deps/libpng-1.6.9
-#LIBPNG_LIB_PATH=C:/deps/libpng-1.6.9/.libs
-#MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
-#QRENCODE_INCLUDE_PATH=C:/deps/qrencode-3.4.3
-#QRENCODE_LIB_PATH=C:/deps/qrencode-3.4.3/.libs
-#LIBEVENT_INCLUDE_PATH=C:\MinGW\msys\1.0\local\include
-#LIBEVENT_LIB_PATH=C:\MinGW\msys\1.0\local\lib
-#LIBEVENT_LIB_PATH=C:\deps\32\libevent-2.0.22\.libs
+BOOST_LIB_SUFFIX=-mgw48-mt-s-1_55
+BOOST_INCLUDE_PATH=C:/deps/boost_1_55_0
+BOOST_LIB_PATH=C:/deps/boost_1_55_0/stage/lib
+BDB_INCLUDE_PATH=C:/deps/db-4.8.30.NC/build_unix
+BDB_LIB_PATH=C:/deps/db-4.8.30.NC/build_unix
+OPENSSL_INCLUDE_PATH=C:/deps/openssl-1.0.1l/include
+OPENSSL_LIB_PATH=C:/deps/openssl-1.0.1l
+MINIUPNPC_INCLUDE_PATH=C:/deps/
+MINIUPNPC_LIB_PATH=C:/deps/miniupnpc
+LIBPNG_INCLUDE_PATH=C:/deps/libpng-1.6.16
+LIBPNG_LIB_PATH=C:/deps/libpng-1.6.16/.libs
+QRENCODE_INCLUDE_PATH=C:/deps/qrencode-3.4.4
+QRENCODE_LIB_PATH=C:/deps/qrencode-3.4.4/.libs
+LIBEVENT_INCLUDE_PATH=C:/MinGW/include
+LIBEVENT_LIB_PATH=C:/MinGW/lib
+#LIBEVENT_LIB_PATH=C:/deps/libevent/.libs
 
 # for boost 1.37, add -mt to the boost libraries
 # use: qmake BOOST_LIB_SUFFIX=-mt
@@ -513,7 +513,7 @@ OTHER_FILES += \
 # platform specific defaults, if not overridden on command line
 isEmpty(BOOST_LIB_SUFFIX) {
     macx:BOOST_LIB_SUFFIX = -mt
-    windows:BOOST_LIB_SUFFIX = -mgw48-mt-s-1_550
+    windows:BOOST_LIB_SUFFIX = -mgw48-mt-s-1_55
 }
 
 isEmpty(BOOST_THREAD_LIB_SUFFIX) {
