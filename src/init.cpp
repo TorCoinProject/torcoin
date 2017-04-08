@@ -11,7 +11,6 @@
 #include "ui_interface.h"
 #include "checkpoints.h"
 #include "smessage.h"
-#include "tor/anonymize.h" //TOR integration
 
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -32,8 +31,6 @@ using namespace boost;
 
 CWallet* pwalletMain;
 CClientUIInterface uiInterface;
-
-unsigned short const onion_port = 9089; // Onion Port
 bool fConfChange;
 bool fEnforceCanonical;
 unsigned int nNodeLifespan;
@@ -261,7 +258,6 @@ std::string HelpMessage()
         "  -listen                " + _("Accept connections from outside (default: 1 if no -proxy or -connect)") + "\n" +
         "  -bind=<addr>           " + _("Bind to given address. Use [host]:port notation for IPv6") + "\n" +
         "  -dnsseed               " + _("Find peers using DNS lookup (default: 1)") + "\n" +
-		"  -onionseed             " + _("Find peers using .onion seeds (default: 1 unless -connect)") + "\n" +
         "  -staking               " + _("Stake your coins to support network and gain reward (default: 1)") + "\n" +
         "  -synctime              " + _("Sync time with other nodes. Disable if time on your system is precise e.g. syncing with NTP (default: 1)") + "\n" +
         "  -cppolicy              " + _("Sync checkpoints policy (default: strict)") + "\n" +
@@ -417,15 +413,37 @@ bool AppInit2()
 
     fTestNet = GetBoolArg("-testnet");
     
-    if (fTestNet)
+    //if (fTestNet)
     {
         SoftSetBoolArg("-irc", true);
     }
 
-	if (mapArgs.count("-connect") && mapMultiArgs["-connect"].size() > 0)
-    {
-        // when only connecting to trusted nodes, do not seed via .onion, or listen by default
-        SoftSetBoolArg("-onionseed", false);
+    if (mapArgs.count("-bind")) {
+        // when specifying an explicit binding address, you want to listen on it
+        // even when -connect or -proxy is specified
+        SoftSetBoolArg("-listen", true);
+    }
+
+    if (mapArgs.count("-connect") && mapMultiArgs["-connect"].size() > 0) {
+        // when only connecting to trusted nodes, do not seed via DNS, or listen by default
+        SoftSetBoolArg("-dnsseed", false);
+        SoftSetBoolArg("-listen", false);
+    }
+
+    if (mapArgs.count("-proxy")) {
+        // to protect privacy, do not listen by default if a proxy server is specified
+        SoftSetBoolArg("-listen", false);
+    }
+
+    if (!GetBoolArg("-listen", true)) {
+        // do not map ports or try to retrieve public IP when not listening (pointless)
+        SoftSetBoolArg("-upnp", false);
+        SoftSetBoolArg("-discover", false);
+    }
+
+    if (mapArgs.count("-externalip")) {
+        // if an explicit public IP is specified, do not try to find others
+        SoftSetBoolArg("-discover", false);
     }
 
     if (GetBoolArg("-salvagewallet")) {
@@ -588,70 +606,86 @@ bool AppInit2()
 
     // ********************************************************* Step 6: network initialization
 
-    // nMaxThinPeers = GetArg("-maxthinpeers", 8);
+    int nSocksVersion = GetArg("-socks", 5);
 
-    // nBloomFilterElements = GetArg("-bloomfilterelements", 1536);
-	
-	// Tor implementation
-	
-	do {
+    if (nSocksVersion != 4 && nSocksVersion != 5)
+        return InitError(strprintf(_("Unknown -socks proxy version requested: %i"), nSocksVersion));
+
+    if (mapArgs.count("-onlynet")) {
         std::set<enum Network> nets;
-        nets.insert(NET_TOR);
-
+        BOOST_FOREACH(std::string snet, mapMultiArgs["-onlynet"]) {
+            enum Network net = ParseNetwork(snet);
+            if (net == NET_UNROUTABLE)
+                return InitError(strprintf(_("Unknown network specified in -onlynet: '%s'"), snet.c_str()));
+            nets.insert(net);
+        }
         for (int n = 0; n < NET_MAX; n++) {
             enum Network net = (enum Network)n;
             if (!nets.count(net))
                 SetLimited(net);
         }
-	} while (false);
+    }
 
+    CService addrProxy;
+    bool fProxy = false;
+    if (mapArgs.count("-proxy")) {
+        addrProxy = CService(mapArgs["-proxy"], 9050);
+        if (!addrProxy.IsValid())
+            return InitError(strprintf(_("Invalid -proxy address: '%s'"), mapArgs["-proxy"].c_str()));
 
-	// Tor implementation
+        if (!IsLimited(NET_IPV4))
+            SetProxy(NET_IPV4, addrProxy, nSocksVersion);
+        if (nSocksVersion > 4) {
+            if (!IsLimited(NET_IPV6))
+                SetProxy(NET_IPV6, addrProxy, nSocksVersion);
+            SetNameProxy(addrProxy, nSocksVersion);
+        }
+        fProxy = true;
+    }
 
-	CService addrOnion;
-    //unsigned short const onion_port = 9075;
-
-    if (mapArgs.count("-tor") && mapArgs["-tor"] != "0") {
-        addrOnion = CService(mapArgs["-tor"], onion_port);
+    // -tor can override normal proxy, -notor disables tor entirely
+    if (!(mapArgs.count("-tor") && mapArgs["-tor"] == "0") && (fProxy || mapArgs.count("-tor"))) {
+        CService addrOnion;
+        if (!mapArgs.count("-tor"))
+            addrOnion = addrProxy;
+        else
+            addrOnion = CService(mapArgs["-tor"], 9050);
         if (!addrOnion.IsValid())
             return InitError(strprintf(_("Invalid -tor address: '%s'"), mapArgs["-tor"].c_str()));
-    } else {
-        addrOnion = CService("127.0.0.1", onion_port);
-    }
-	
-    if (true) {
         SetProxy(NET_TOR, addrOnion, 5);
         SetReachable(NET_TOR);
     }
 
     // see Step 2: parameter interactions for more information about these
+    fNoListen = !GetBoolArg("-listen", true);
+    fDiscover = GetBoolArg("-discover", true);
     fNameLookup = GetBoolArg("-dns", true);
+#ifdef USE_UPNP
+    fUseUPnP = GetBoolArg("-upnp", USE_UPNP);
+#endif
 
     bool fBound = false;
-    if (true) {
-        if (true) {
-            do {
+    if (!fNoListen)
+    {
+        std::string strError;
+        if (mapArgs.count("-bind")) {
+            BOOST_FOREACH(std::string strBind, mapMultiArgs["-bind"]) {
                 CService addrBind;
-                if (!Lookup("127.0.0.1", addrBind, GetListenPort(), false))
-                    return InitError(strprintf(_("Cannot resolve binding address: '%s'"),  "127.0.0.1"));
+                if (!Lookup(strBind.c_str(), addrBind, GetListenPort(), false))
+                    return InitError(strprintf(_("Cannot resolve -bind address: '%s'"), strBind.c_str()));
                 fBound |= Bind(addrBind);
-            } while (
-                false
-            );
+            }
+        } else {
+            struct in_addr inaddr_any;
+            inaddr_any.s_addr = INADDR_ANY;
+            if (!IsLimited(NET_IPV6))
+                fBound |= Bind(CService(in6addr_any, GetListenPort()), false);
+            if (!IsLimited(NET_IPV4))
+                fBound |= Bind(CService(inaddr_any, GetListenPort()), !fBound);
         }
         if (!fBound)
-            return InitError(_("Failed to listen on any port."));
+            return InitError(_("Failed to listen on any port. Use -listen=0 if you want this."));
     }
-
-
-    // start up tor
-    if (!(mapArgs.count("-tor") && mapArgs["-tor"] != "0")) {
-      if (!NewThread(StartTor, NULL))
-        InitError(_("Error: could not start tor"));
-    }
-
-    wait_initialized();
-
 
     if (mapArgs.count("-externalip"))
     {
@@ -661,24 +695,6 @@ bool AppInit2()
                 return InitError(strprintf(_("Cannot resolve -externalip address: '%s'"), strAddr.c_str()));
             AddLocal(CService(strAddr, GetListenPort(), fNameLookup), LOCAL_MANUAL);
         }
-    } else {
-        string automatic_onion;
-        filesystem::path const hostname_path = GetDataDir(
-        ) / "onion" / "hostname";
-        if (
-            !filesystem::exists(
-                hostname_path
-            )
-        ) {
-            return InitError(strprintf(_("No external address found. %s"), hostname_path.string().c_str()));
-        }
-        ifstream file(
-            hostname_path.string(
-            ).c_str(
-            )
-        );
-        file >> automatic_onion;
-        AddLocal(CService(automatic_onion, GetListenPort(), fNameLookup), LOCAL_MANUAL);
     }
 
     if (mapArgs.count("-reservebalance")) // ppcoin: reserve balance amount
