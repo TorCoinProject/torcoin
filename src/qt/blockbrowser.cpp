@@ -51,8 +51,8 @@ const CBlockIndex* getBlockIndex(int height)
 
 std::string getBlockHash(int Height)
 {
-    if(Height > pindexBest->nHeight) { return "351c6703813172725c6d660aa539ee6a3d7a9fe784c87fae7f36582e3b797058"; }
-    if(Height < 0) { return "351c6703813172725c6d660aa539ee6a3d7a9fe784c87fae7f36582e3b797058"; }
+    if(Height > pindexBest->nHeight) { return "00000dc8fda5e75ae235fda6829ddceaf5cdc6e5e551c71b704ab111ab7c1fcb"; }
+    if(Height < 0) { return "00000dc8fda5e75ae235fda6829ddceaf5cdc6e5e551c71b704ab111ab7c1fcb"; }
     int desiredheight;
     desiredheight = Height;
     if (desiredheight < 0 || desiredheight > nBestHeight)
@@ -210,7 +210,7 @@ std::string getOutputs(std::string txid)
         str.append(lol7);
         str.append(": ");
         str.append(amount);
-        str.append(" CK");
+        str.append(" TOR");
         str.append("\n");
     }
 
@@ -254,7 +254,7 @@ std::string getInputs(std::string txid)
         str.append(lol6);
         str.append(": ");
         str.append(amount);
-        str.append("CK");
+        str.append("TOR");
         str.append("\n");
     }
 
