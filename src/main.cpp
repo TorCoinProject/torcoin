@@ -976,15 +976,15 @@ int64_t GetProofOfWorkReward(int nHeight, int64_t nFees)
 	
 	int64_t nSubsidy = 1 * COIN;
 
-	if (nHeight <= 0)
+	if (pindexBest->nHeight <= 0)
         	nSubsidy = 0;
-	else if (nHeight == 1)
+	else if (pindexBest->nHeight == 1)
 		nSubsidy = 1200000 * COIN; // 1.2m TOR Premine
-	else if (nHeight <= LAST_FAIR_LAUNCH_BLOCK) // 160
+	else if (pindexBest->nHeight <= LAST_FAIR_LAUNCH_BLOCK) // 160
         	nSubsidy = 1 * COIN/2;
-	else if (nHeight <= LAST_POW_BLOCK)
+	else if (pindexBest->nHeight <= LAST_POW_BLOCK)
 		// Subsidy is cut in half every 250000 blocks, which will occur approximately every 6 months
-		nSubsidy >>= (nHeight / REWARD_HALVING_BLOCK);
+		nSubsidy >>= (pindexBest->nHeight / REWARD_HALVING_BLOCK);
 
     if (fDebug && GetBoolArg("-printcreation"))
         printf("GetProofOfWorkReward() : create=%s nSubsidy=%"PRId64"\n", FormatMoney(nSubsidy).c_str(), nSubsidy);
@@ -2458,9 +2458,9 @@ bool LoadBlockIndex(bool fAllowNew)
         if (!fAllowNew)
             return false;
 
-        const char* pszTimestamp = "http://www.coindesk.com/charts-determining-ideal-block-size-bitcoin/";
+        const char* pszTimestamp = "http://www.coindesk.com/one-tweet-make-litecoins-price-fall-20/";
         CTransaction txNew;
-        txNew.nTime = 1490415068;
+        txNew.nTime = 1491768764;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 0 << CBigNum(42) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
@@ -2470,13 +2470,13 @@ bool LoadBlockIndex(bool fAllowNew)
         block.vtx.push_back(txNew);
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
+        block.nTime    = 1491768764;
         block.nVersion = 1;
-        block.nTime    = 1490415068;
         block.nBits    = bnProofOfWorkLimit.GetCompact();
-	block.nNonce   = 127591;
-	if(fTestNet)
+		block.nNonce   = 160966;
+		if(fTestNet)
         {
-            block.nNonce   = 6849;
+            block.nNonce   = 112118;
         }
         if (false && (block.GetHash() != hashGenesisBlock)) {
 
@@ -2501,7 +2501,7 @@ bool LoadBlockIndex(bool fAllowNew)
         
         
         //// debug print
-        assert(block.hashMerkleRoot == uint256("0x55b5d7bc22ac628c9e3939a4eb1fa97e097f5350b56191c07ec7ad3a751e8842"));
+        assert(block.hashMerkleRoot == uint256("0x26bc3ed5451877cb1070fcbd6c76db5a3d4fcb38284e947f6bd21910091669a3"));
         block.print();
         assert(block.GetHash() == (!fTestNet ? hashGenesisBlock : hashGenesisBlockTestNet));
         assert(block.CheckBlock());
