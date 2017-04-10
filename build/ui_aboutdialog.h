@@ -132,7 +132,7 @@ public:
         copyrightLabel->setText(QApplication::translate("AboutDialog", "Copyright \302\251 2009-2014 The Bitcoin developers\n"
 "Copyright \302\251 2012-2014 The NovaCoin developers\n"
 "Copyright \302\251 2014 The BlackCoin developers\n"
-"Copyright \302\251 2014 The Torcoin developers", 0, QApplication::UnicodeUTF8));
+"Copyright \302\251 2017 The Torcoin developers", 0, QApplication::UnicodeUTF8));
         label_2->setText(QApplication::translate("AboutDialog", "\n"
 "This is experimental software.\n"
 "\n"

@@ -13,11 +13,13 @@ Torcoin addresses on the mainnet start with T and stealth addresses start with a
 
 Total of ~12 million TOR total
 
+1.2m TOR Premine (10%)
+
 Block Reward of 1 TOR per block and halves every 6 months (~250,000 blocks)
 
 First 160 blocks are 0.5 TOR Block Reward
 
-Block Time is 60 seconds and 6 confirmations
+Block Time is 60 seconds and 10 confirmations
 
 RPC PORT: 22669
 P2P PORT: 23669
