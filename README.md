@@ -9,7 +9,7 @@ Torcoin features a completely custom QT wallet with Stealth Addresses, Encrypted
 
 Torcoin's market ticker is TOR
 
-Torcoin addresses on the mainnet start with T and stealth addresses start with a lowercase t
+Torcoin addresses on the mainnet start with T and stealth addresses start with a lowercase s
 
 Total of ~12 million TOR total
 
