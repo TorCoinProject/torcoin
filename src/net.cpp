@@ -1190,6 +1190,7 @@ void ThreadMapPort2(void* parg)
     r = UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr));
     if (r == 1)
     {
+		/*
         if (fDiscover) {
             char externalIPAddress[40];
             r = UPNP_GetExternalIPAddress(urls.controlURL, data.first.servicetype, externalIPAddress);
@@ -1206,7 +1207,7 @@ void ThreadMapPort2(void* parg)
                     printf("UPnP: GetExternalIPAddress failed.\n");
             }
         }
-
+		*/
         string strDesc = "Torcoin " + FormatFullVersion();
 #ifndef UPNPDISCOVER_SUCCESS
         /* miniupnpc 1.5 */
