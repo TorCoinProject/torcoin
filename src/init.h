@@ -7,10 +7,15 @@
 
 #include "wallet.h"
 
+#include "stealth.h"
+
 extern CWallet* pwalletMain;
 void StartShutdown();
 void Shutdown(void* parg);
 bool AppInit2();
 std::string HelpMessage();
+
+// random port number, not used much
+unsigned short const TORPORT = 9060;
 
 #endif

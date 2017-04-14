@@ -242,7 +242,6 @@ std::string HelpMessage()
         "  -dbcache=<n>           " + _("Set database cache size in megabytes (default: 25)") + "\n" +
         "  -dblogsize=<n>         " + _("Set database disk log size in megabytes (default: 100)") + "\n" +
         "  -timeout=<n>           " + _("Specify connection timeout in milliseconds (default: 5000)") + "\n" +
-        "  -proxy=<ip:port>       " + _("Connect through socks proxy") + "\n" +
         "  -socks=<n>             " + _("Select the version of socks proxy to use (4-5, default: 5)") + "\n" +
         "  -tor=<ip:port>         " + _("Use proxy to reach tor hidden services (default: same as -proxy)") + "\n"
         "  -dns                   " + _("Allow DNS lookups for -addnode, -seednode and -connect") + "\n" +
@@ -251,13 +250,8 @@ std::string HelpMessage()
         "  -addnode=<ip>          " + _("Add a node to connect to and attempt to keep the connection open") + "\n" +
         "  -connect=<ip>          " + _("Connect only to the specified node(s)") + "\n" +
         "  -seednode=<ip>         " + _("Connect to a node to retrieve peer addresses, and disconnect") + "\n" +
-        "  -externalip=<ip>       " + _("Specify your own public address") + "\n" +
         "  -onlynet=<net>         " + _("Only connect to nodes in network <net> (IPv4, IPv6 or Tor)") + "\n" +
-        "  -discover              " + _("Discover own IP address (default: 1 when listening and no -externalip)") + "\n" +
-        "  -irc                   " + _("Find peers using internet relay chat (default: 0)") + "\n" +
-        "  -listen                " + _("Accept connections from outside (default: 1 if no -proxy or -connect)") + "\n" +
-        "  -bind=<addr>           " + _("Bind to given address. Use [host]:port notation for IPv6") + "\n" +
-        "  -dnsseed               " + _("Find peers using DNS lookup (default: 1)") + "\n" +
+        "  -onionseed             " + _("Find peers using .onion seeds (default: 1 unless -connect)") + "\n" +
         "  -staking               " + _("Stake your coins to support network and gain reward (default: 1)") + "\n" +
         "  -synctime              " + _("Sync time with other nodes. Disable if time on your system is precise e.g. syncing with NTP (default: 1)") + "\n" +
         "  -cppolicy              " + _("Sync checkpoints policy (default: strict)") + "\n" +
@@ -417,19 +411,22 @@ bool AppInit2()
     {
         SoftSetBoolArg("-irc", true);
     }
-
+	/*
     if (mapArgs.count("-bind")) {
         // when specifying an explicit binding address, you want to listen on it
         // even when -connect or -proxy is specified
         SoftSetBoolArg("-listen", true);
     }
-
+	*/
+	
     if (mapArgs.count("-connect") && mapMultiArgs["-connect"].size() > 0) {
         // when only connecting to trusted nodes, do not seed via DNS, or listen by default
-        SoftSetBoolArg("-dnsseed", false);
-        SoftSetBoolArg("-listen", false);
+        //SoftSetBoolArg("-dnsseed", false);
+        //SoftSetBoolArg("-listen", false);
+		// when only connecting to trusted nodes, do not seed via .onion, or listen by default
+        SoftSetBoolArg("-onionseed", false);
     }
-
+	/*
     if (mapArgs.count("-proxy")) {
         // to protect privacy, do not listen by default if a proxy server is specified
         SoftSetBoolArg("-listen", false);
@@ -445,7 +442,7 @@ bool AppInit2()
         // if an explicit public IP is specified, do not try to find others
         SoftSetBoolArg("-discover", false);
     }
-
+	*/
     if (GetBoolArg("-salvagewallet")) {
         // Rewrite just private keys: rescan to find transactions
         SoftSetBoolArg("-rescan", true);
@@ -625,7 +622,25 @@ bool AppInit2()
                 SetLimited(net);
         }
     }
+	
+	//Tor Integration
+	CService addrOnion;
 
+    unsigned short onion_port = TORPORT;
+
+    if (mapArgs.count("-tor") && mapArgs["-tor"] != "0") {
+        addrOnion = CService(mapArgs["-tor"], onion_port);
+        if (!addrOnion.IsValid())
+            return InitError(strprintf(_("Invalid -tor address: '%s'"), mapArgs["-tor"].c_str()));
+    } else {
+        addrOnion = CService("127.0.0.1", onion_port);
+    }
+
+    if (true) {
+        SetProxy(NET_TOR, addrOnion, 5);
+        SetReachable(NET_TOR);
+    }
+/*
     CService addrProxy;
     bool fProxy = false;
     if (mapArgs.count("-proxy")) {
@@ -655,10 +670,10 @@ bool AppInit2()
         SetProxy(NET_TOR, addrOnion, 5);
         SetReachable(NET_TOR);
     }
-
+*/
     // see Step 2: parameter interactions for more information about these
-    fNoListen = !GetBoolArg("-listen", true);
-    fDiscover = GetBoolArg("-discover", true);
+    //fNoListen = !GetBoolArg("-listen", true);
+    //fDiscover = GetBoolArg("-discover", true);
     fNameLookup = GetBoolArg("-dns", true);
 #ifdef USE_UPNP
     fUseUPnP = GetBoolArg("-upnp", USE_UPNP);
@@ -686,6 +701,16 @@ bool AppInit2()
         if (!fBound)
             return InitError(_("Failed to listen on any port. Use -listen=0 if you want this."));
     }
+	
+	//Tor Integration
+	// start up tor
+    if (!(mapArgs.count("-tor") && mapArgs["-tor"] != "0")) {
+      if (!NewThread(StartTor, NULL))
+        InitError(_("Error: could not start tor"));
+    }
+
+    //wait_initialized();
+
 
     if (mapArgs.count("-externalip"))
     {
@@ -695,7 +720,37 @@ bool AppInit2()
                 return InitError(strprintf(_("Cannot resolve -externalip address: '%s'"), strAddr.c_str()));
             AddLocal(CService(strAddr, GetListenPort(), fNameLookup), LOCAL_MANUAL);
         }
+    } else {
+        string automatic_onion;
+        filesystem::path const hostname_path = GetDataDir(
+        ) / "onion" / "hostname";
+        if (
+            !filesystem::exists(
+                hostname_path
+            )
+        ) {
+            return InitError(strprintf(_("No external address found. %s"), hostname_path.string().c_str()));
+        }
+        ifstream file(
+            hostname_path.string(
+            ).c_str(
+            )
+        );
+        file >> automatic_onion;
+        AddLocal(CService(automatic_onion, GetListenPort(), fNameLookup), LOCAL_MANUAL);
     }
+	//Tor Integration End
+	/*
+    if (mapArgs.count("-externalip"))
+    {
+        BOOST_FOREACH(string strAddr, mapMultiArgs["-externalip"]) {
+            CService addrLocal(strAddr, GetListenPort(), fNameLookup);
+            if (!addrLocal.IsValid())
+                return InitError(strprintf(_("Cannot resolve -externalip address: '%s'"), strAddr.c_str()));
+            AddLocal(CService(strAddr, GetListenPort(), fNameLookup), LOCAL_MANUAL);
+        }
+    }
+	*/
 
     if (mapArgs.count("-reservebalance")) // ppcoin: reserve balance amount
     {

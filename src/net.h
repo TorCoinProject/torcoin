@@ -44,6 +44,7 @@ void MapPort();
 unsigned short GetListenPort();
 bool BindListenPort(const CService &bindAddr, std::string& strError=REF(std::string()));
 void StartNode(void* parg);
+void StartTor(void* parg);
 bool StopNode();
 void SocketSendData(CNode *pnode);
 
@@ -115,7 +116,8 @@ enum threadId
     THREAD_MAX
 };
 
-extern bool fDiscover;
+extern bool fClient;
+//extern bool fDiscover;
 extern bool fUseUPnP;
 extern uint64_t nLocalServices;
 extern uint64_t nLocalHostNonce;

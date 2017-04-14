@@ -10,6 +10,7 @@
 #include "strlcpy.h"
 #include "addrman.h"
 #include "ui_interface.h"
+#include "onionseed.h"
 
 #ifdef WIN32
 #include <string.h>
@@ -24,6 +25,10 @@
 
 using namespace std;
 using namespace boost;
+
+extern "C" {
+    int tor_main(int argc, char *argv[]);
+}
 
 static const int MAX_OUTBOUND_CONNECTIONS = 16;
 
@@ -46,9 +51,13 @@ struct LocalServiceInfo {
 //
 // Global state variables
 //
-bool fDiscover = true;
+bool fClient = false;
+
+//bool fDiscover = true;
+//bool fUseUPnP = GetBoolArg("-upnp", USE_UPNP);
 bool fUseUPnP = false;
-uint64_t nLocalServices = NODE_NETWORK;
+
+uint64_t nLocalServices = (fClient ? 0 : NODE_NETWORK);
 static CCriticalSection cs_mapLocalHost;
 static map<CNetAddr, LocalServiceInfo> mapLocalHost;
 static bool vfReachable[NET_MAX] = {};
@@ -220,7 +229,7 @@ bool AddLocal(const CService& addr, int nScore)
     if (!addr.IsRoutable())
         return false;
 
-    if (!fDiscover && nScore < LOCAL_MANUAL)
+    if (nScore < LOCAL_MANUAL)
         return false;
 
     if (IsLimited(addr))
@@ -1276,13 +1285,48 @@ void MapPort()
 #endif
 
 
+void ThreadOnionSeed(void* parg)
+{
+
+    // Make this thread recognisable as the tor thread
+    RenameThread("onionseed");
+
+    static const char *(*strOnionSeed)[1] = fTestNet ? strTestNetOnionSeed : strMainNetOnionSeed;
+
+    int found = 0;
+
+    printf("Loading addresses from .onion seeds\n");
+
+    for (unsigned int seed_idx = 0; strOnionSeed[seed_idx][0] != NULL; seed_idx++) {
+        CNetAddr parsed;
+        if (
+            !parsed.SetSpecial(
+                strOnionSeed[seed_idx][0]
+            )
+        ) {
+            throw runtime_error("ThreadOnionSeed() : invalid .onion seed");
+        }
+        int nOneDay = 24*3600;
+        CAddress addr = CAddress(CService(parsed, GetDefaultPort()));
+        addr.nTime = GetTime() - 3*nOneDay - GetRand(4*nOneDay); // use a random age between 3 and 7 days old
+        found++;
+        addrman.Add(addr, parsed);
+    }
+
+    printf("%d addresses found from .onion seeds\n", found);
+}
+
+
+
+unsigned int pnSeed[] =
+{
+};
 
 
 
 
 
-
-
+/*
 // DNS seeds
 // Each pair gives a source name and a seed name.
 // The first name is used as information source for addrman.
@@ -1361,7 +1405,7 @@ unsigned int pnSeed[] =
     0x42ac0c50,
 };
 
-
+*/
 
 void DumpAddresses()
 {
@@ -1900,13 +1944,14 @@ bool BindListenPort(const CService &addrBind, string& strError)
     }
 
     vhListenSocket.push_back(hListenSocket);
-
+/*
     if (addrBind.IsRoutable() && fDiscover)
         AddLocal(addrBind, LOCAL_BIND);
-
+*/
     return true;
 }
 
+/*
 void static Discover()
 {
     if (!fDiscover)
@@ -1960,6 +2005,46 @@ void static Discover()
     if (!IsLimited(NET_IPV4))
         NewThread(ThreadGetMyExternalIP, NULL);
 }
+*/
+
+void static Discover()
+{
+   // no network discovery
+}
+
+static void run_tor() {
+    printf("Tor thread started.\n");
+
+    std::string logDecl = "notice file " + GetDataDir().string() + "/tor/tor.log";
+    char *argvLogDecl = (char*) logDecl.c_str();
+
+    char* argv[] = {
+        "tor",
+        "--hush",
+        "--Log",
+        argvLogDecl
+    };
+
+    tor_main(4, argv);
+}
+
+
+void StartTor(void* parg)
+{
+    // Make this thread recognisable as the tor thread
+    RenameThread("onion");
+
+    try
+    {
+      run_tor();
+    }
+    catch (std::exception& e) {
+      PrintException(&e, "StartTor()");
+    }
+
+    printf("Onion thread exited.");
+
+}
 
 void StartNode(void* parg)
 {
@@ -1980,21 +2065,29 @@ void StartNode(void* parg)
     //
     // Start threads
     //
-
+	
+	// start the onion seeder
+    if (!GetBoolArg("-onionseed", true))
+        printf(".onion seeding disabled\n");
+    else
+        if (!NewThread(ThreadOnionSeed, NULL))
+              printf("Error: could not start .onion seeding\n");
+/*
     if (!GetBoolArg("-dnsseed", true))
         printf("DNS seeding disabled\n");
     else
         if (!NewThread(ThreadDNSAddressSeed, NULL))
             printf("Error: NewThread(ThreadDNSAddressSeed) failed\n");
-
+*/
     // Map ports with UPnP
     if (fUseUPnP)
         MapPort();
 
+/*
     // Get addresses from IRC and advertise ours
     if (!NewThread(ThreadIRCSeed, NULL))
         printf("Error: NewThread(ThreadIRCSeed) failed\n");
-
+*/
     // Send and receive from sockets, accept connections
     if (!NewThread(ThreadSocketHandler, NULL))
         printf("Error: NewThread(ThreadSocketHandler) failed\n");
@@ -2015,12 +2108,17 @@ void StartNode(void* parg)
     if (!NewThread(ThreadDumpAddress, NULL))
         printf("Error; NewThread(ThreadDumpAddress) failed\n");
 
-    // Mine proof-of-stake blocks in the background
-    if (!GetBoolArg("-staking", true))
-        printf("Staking disabled\n");
-    else
+    // make sure conf allows it (stake=0 in conf)
+    if (GetBoolArg("-staking", true)) {
+        printf("Stake minting enabled at startup.\n");
         if (!NewThread(ThreadStakeMiner, pwalletMain))
             printf("Error: NewThread(ThreadStakeMiner) failed\n");
+    } else {
+        printf("Stake minting disabled at startup (staking=0).\n");
+    }
+	
+	// Generate coins in the background
+    //GenerateTorcoins(GetBoolArg("-gen", false), pwalletMain);
 }
 
 bool StopNode()
