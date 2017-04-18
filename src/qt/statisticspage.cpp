@@ -53,7 +53,7 @@ void StatisticsPage::updateStatistics()
     QString phase = "";
     if (pindexBest->nHeight < 1500000)
     {
-        phase = "X11 POW (POS Starts Block 1500000)";
+        phase = "X11 POW/POS (POS Fully Starts Block 1500000)";
     }
     else if (pindexBest->nHeight > 1500000)
     {
@@ -67,40 +67,40 @@ void StatisticsPage::updateStatistics()
     QString Qlpawrate = model->getLastBlockDate().toString();
 
     QString QPeers = QString::number(peers);
-    // QString qVolume = QLocale(QLocale::English).toString(volume);
+    QString qVolume = QLocale(QLocale::English).toString(volume);
 
     if(nHeight > heightPrevious)
     {
         ui->heightBox->setText("<b><font color=\"lightgreen\">" + height + "</font></b>");
     } else {
-    ui->heightBox->setText(height);
+		ui->heightBox->setText("<b><font color=\"lightblue\">" + height + "</font></b>");
     }
 
     if(0 > stakeminPrevious)
     {
         ui->minBox->setText("<b><font color=\"lightgreen\">" + stakemin + "</font></b>");
     } else {
-    ui->minBox->setText(stakemin);
+    ui->minBox->setText("<b><font color=\"lightblue\">" + stakemin + "</font></b>");
     }
     if(0 > stakemaxPrevious)
     {
         ui->maxBox->setText("<b><font color=\"lightgreen\">" + stakemax + "</font></b>");
     } else {
-    ui->maxBox->setText(stakemax);
+    ui->maxBox->setText("<b><font color=\"lightblue\">" + stakemax + "</font></b>");
     }
 
     if(phase != stakecPrevious)
     {
         ui->cBox->setText("<b><font color=\"lightgreen\">" + phase + "</font></b>");
     } else {
-    ui->cBox->setText(phase);
+    ui->cBox->setText("<b><font color=\"lightblue\">" + phase + "</font></b>");
     }
     
     if(subsidy != rewardPrevious)
     {
         ui->rewardBox->setText("<b><font color=\"lightgreen\">" + subsidy + "</font></b>");
     } else {
-    ui->rewardBox->setText(subsidy);
+    ui->rewardBox->setText("<b><font color=\"lightblue\">" + subsidy + "</font></b>");
     }
     
     if(pHardness > hardnessPrevious)
@@ -109,7 +109,7 @@ void StatisticsPage::updateStatistics()
     } else if(pHardness < hardnessPrevious) {
         ui->diffBox->setText("<b><font color=\"lightred\">" + hardness + "</font></b>");
     } else {
-        ui->diffBox->setText(hardness);        
+        ui->diffBox->setText("<b><font color=\"lightblue\">" + hardness + "</font></b>");        
     }
 
     if(pHardness2 > hardnessPrevious2)
@@ -118,7 +118,7 @@ void StatisticsPage::updateStatistics()
     } else if(pHardness2 < hardnessPrevious2) {
         ui->diffBox2->setText("<b><font color=\"lightred\">" + hardness2 + "</font></b>");
     } else {
-        ui->diffBox2->setText(hardness2);
+        ui->diffBox2->setText("<b><font color=\"lightblue\">" + hardness2 + "</font></b>");
     }
     
     if(pPawrate2 > netPawratePrevious)
@@ -127,14 +127,14 @@ void StatisticsPage::updateStatistics()
     } else if(pPawrate2 < netPawratePrevious) {
         ui->pawrateBox->setText("<b><font color=\"lightred\">" + pawrate + " MH/s</font></b>");
     } else {
-        ui->pawrateBox->setText(pawrate + " MH/s");
+        ui->pawrateBox->setText("<b><font color=\"lightblue\">" + pawrate + " MH/s</font></b>");
     }
 
     if(Qlpawrate != pawratePrevious)
     {
         ui->localBox->setText("<b><font color=\"lightgreen\">" + Qlpawrate + "</font></b>");
     } else {
-    ui->localBox->setText(Qlpawrate);
+    ui->localBox->setText("<b><font color=\"lightblue\">" + Qlpawrate + "</font></b>");
     }
     
     if(peers > connectionPrevious)
@@ -143,18 +143,18 @@ void StatisticsPage::updateStatistics()
     } else if(peers < connectionPrevious) {
         ui->connectionBox->setText("<b><font color=\"lightred\">" + QPeers + "</font></b>");        
     } else {
-        ui->connectionBox->setText(QPeers);  
+        ui->connectionBox->setText("<b><font color=\"lightblue\">" + QPeers + "</font></b>");  
     }
 
-    /* if(volume > volumePrevious)
+    if(volume > volumePrevious)
     {
         ui->volumeBox->setText("<b><font color=\"lightgreen\">" + qVolume + " TOR" + "</font></b>");
     } else if(volume < volumePrevious) {
         ui->volumeBox->setText("<b><font color=\"lightred\">" + qVolume + " TOR" + "</font></b>");
     } else {
-        ui->volumeBox->setText(qVolume + " TOR");
+        ui->volumeBox->setText("<b><font color=\"lightblue\">" + qVolume + " TOR" + "</font></b>");
     }
-	*/
+	
     updatePrevious(nHeight, nMinWeight, nNetworkWeight, phase, subsidy, pHardness, pHardness2, pPawrate2, Qlpawrate, peers, volume);
 }
 
@@ -170,7 +170,7 @@ void StatisticsPage::updatePrevious(int nHeight, int nMinWeight, int nNetworkWei
     netPawratePrevious = pPawrate2;
     pawratePrevious = Qlpawrate;
     connectionPrevious = peers;
-    // volumePrevious = volume;
+    volumePrevious = volume;
 }
 
 void StatisticsPage::setModel(ClientModel *model)
